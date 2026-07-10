@@ -117,6 +117,8 @@ function generateAll() {
           runs.push(run);
 
           const cut = pick(spec.cutSpecs);
+          // e.g. salmon / 2026-07-09 / "Line 2" / PM -> "LOT-SAL-0709-2PM":
+          // 3-letter species prefix, MMDD, then the line's digit(s) and shift.
           const lotCode = `LOT-${spec.key.slice(0, 3).toUpperCase()}-${date.slice(5).replace("-", "")}-${line.replace(/\D/g, "")}${shift}`;
           lots.push({
             code: lotCode,
@@ -175,10 +177,20 @@ export function runsForDate(date: string) {
   return PRODUCTION_RUNS.filter((r) => r.date === date);
 }
 
+// Pipe-delimited so it round-trips through a URL query param and back via
+// a plain .split("|") — see app/agents/shift-digest/page.tsx, which is the
+// other half of this contract. Field order (date, shift, line) matters:
+// changing it here without updating that split() will silently scramble
+// the shift picker.
 export function shiftKey(date: string, shift: "AM" | "PM", line: string) {
   return `${date}|${shift}|${line}`;
 }
 
+// Plain string sort works because dates are ISO (YYYY-MM-DD) and sort
+// lexicographically same as chronologically. .reverse() then does two
+// things at once: newest date first, and — because "PM" > "AM"
+// alphabetically — PM ends up listed before AM within the same date,
+// which happens to match how a manager would actually scan a shift list.
 export const AVAILABLE_SHIFTS = Array.from(
   new Set(PRODUCTION_RUNS.map((r) => shiftKey(r.date, r.shift, r.line)))
 )

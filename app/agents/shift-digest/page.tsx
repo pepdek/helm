@@ -10,6 +10,11 @@ export default async function ShiftDigestPage({
   searchParams: Promise<{ shift?: string }>;
 }) {
   const { shift: shiftParam } = await searchParams;
+  // Same whitelist-against-known-values pattern as the yield agent's date
+  // param: an invalid/tampered key falls back to the most recent shift
+  // (index 0, since AVAILABLE_SHIFTS is sorted newest-first) rather than
+  // erroring. The split() here is the decode half of shiftKey()'s encode
+  // in lib/data/generate.ts — field order (date, shift, line) must match.
   const key = AVAILABLE_SHIFTS.includes(shiftParam ?? "") ? (shiftParam as string) : AVAILABLE_SHIFTS[0];
   const [date, shift, line] = key.split("|") as [string, "AM" | "PM", string];
 

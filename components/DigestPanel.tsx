@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { generateShiftDigest } from "@/app/agents/shift-digest/actions";
+import { pluralize } from "@/lib/format";
 
 type Result = Awaited<ReturnType<typeof generateShiftDigest>>;
 
@@ -26,7 +27,7 @@ export default function DigestPanel({
 
   return (
     <div className="rounded-lg border border-[var(--color-border)] bg-white p-5">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-wide text-slate-400">
             {date} &middot; {shift} &middot; {line}
@@ -35,7 +36,7 @@ export default function DigestPanel({
         <button
           onClick={handleGenerate}
           disabled={isPending}
-          className="rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-semibold text-white transition hover:brightness-95 disabled:opacity-50"
+          className="shrink-0 whitespace-nowrap rounded-full bg-[var(--color-accent)] px-4 py-1.5 text-xs font-semibold text-white transition hover:brightness-95 disabled:opacity-50"
         >
           {isPending ? "Generating…" : result ? "Regenerate digest" : "Generate digest"}
         </button>
@@ -54,7 +55,7 @@ export default function DigestPanel({
 
           <details className="rounded-md border border-[var(--color-border)] p-3 text-xs text-slate-500">
             <summary className="cursor-pointer font-medium text-slate-600">
-              Underlying shift data ({result.summary.runs.length} runs, {result.summary.flags.length} flagged)
+              Underlying shift data ({pluralize(result.summary.runs.length, "run")}, {result.summary.flags.length} flagged)
             </summary>
             <div className="mt-3 space-y-2">
               {result.summary.runs.map((r) => (

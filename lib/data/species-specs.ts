@@ -19,7 +19,12 @@ export type CutSpec = {
 export type SpeciesSpec = {
   key: SpeciesKey;
   label: string;
-  lines: string[]; // production lines that run this species
+  // Lines can and do overlap across species (Line 2 runs both salmon and
+  // whitefish, Line 4 runs both whitefish and pollock) — a line is a
+  // physical resource shared across runs, not owned by one species. The
+  // synthetic data generator (lib/data/generate.ts) iterates this list to
+  // decide which species/line/shift combinations are even possible.
+  lines: string[];
   expectedYieldPct: number; // output / intake, target
   yieldTolerancePct: number; // +/- band around target before flagging
   gradingTiers: GradingTier[];
@@ -93,6 +98,11 @@ export const SPECIES_SPECS: SpeciesSpec[] = [
   },
 ];
 
+// Throws rather than returning undefined: callers always pass a
+// SpeciesKey that originated from this same file (production runs are
+// generated from SPECIES_SPECS in the first place), so a miss here means
+// the two have drifted out of sync — a bug worth surfacing immediately,
+// not a bad-input case to handle gracefully.
 export function getSpeciesSpec(key: SpeciesKey): SpeciesSpec {
   const spec = SPECIES_SPECS.find((s) => s.key === key);
   if (!spec) throw new Error(`Unknown species: ${key}`);

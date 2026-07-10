@@ -25,6 +25,9 @@ export function reconcileYield(runs: ProductionRun[]): YieldReview[] {
         withinTolerance: Math.abs(variancePct) <= spec.yieldTolerancePct,
       };
     })
+    // Sorted by |variance|, not variance — a run 5pts under target and one
+    // 5pts over are equally worth a manager's attention, so both float to
+    // the top regardless of which direction they missed.
     .sort((a, b) => Math.abs(b.variancePct) - Math.abs(a.variancePct));
 }
 

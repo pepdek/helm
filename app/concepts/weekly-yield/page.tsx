@@ -57,28 +57,33 @@ export default function WeeklyYieldPage() {
             ))}
           </div>
 
-          <div className="flex items-end justify-around gap-4" style={{ height: 200 }}>
-            {WEEKS.map((week, wi) => (
-              <div key={week} className="flex flex-1 flex-col items-center gap-2">
-                <div className="flex h-[160px] items-end gap-1.5">
-                  {SPECIES_SPECS.map((s) => {
-                    const value = WEEKLY_YIELD[s.key][wi];
-                    return (
-                      <div
-                        key={s.key}
-                        title={`${s.label}: ${value}%`}
-                        className="w-5 rounded-t-sm"
-                        style={{
-                          height: `${(value / MAX_SCALE) * 160}px`,
-                          background: SPECIES_COLOR[s.key],
-                        }}
-                      />
-                    );
-                  })}
+          {/* Fixed-width bars don't shrink below ~440px total, so this row
+              scrolls its own overflow rather than blowing out the page on
+              narrow viewports (same pattern as the table below). */}
+          <div className="overflow-x-auto">
+            <div className="flex items-end justify-around gap-4" style={{ height: 200, minWidth: 440 }}>
+              {WEEKS.map((week, wi) => (
+                <div key={week} className="flex flex-1 flex-col items-center gap-2">
+                  <div className="flex h-[160px] items-end gap-1.5">
+                    {SPECIES_SPECS.map((s) => {
+                      const value = WEEKLY_YIELD[s.key][wi];
+                      return (
+                        <div
+                          key={s.key}
+                          title={`${s.label}: ${value}%`}
+                          className="w-5 rounded-t-sm"
+                          style={{
+                            height: `${(value / MAX_SCALE) * 160}px`,
+                            background: SPECIES_COLOR[s.key],
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+                  <span className="text-[11px] text-slate-400">{week}</span>
                 </div>
-                <span className="text-[11px] text-slate-400">{week}</span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 

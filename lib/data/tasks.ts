@@ -13,6 +13,15 @@ export type TaskCard = {
 // cadence), the rest are roadmapped, not hidden.
 export const TASK_CARDS: TaskCard[] = [
   // Daily (8)
+  //
+  // Two of these eight map to the live agents. Both agents pull from the
+  // same reconcileYield() output, so the split is by *use case*, not by
+  // data source: "overnight yield" is what a manager reads once at 6am as
+  // a narrative (-> Daily Shift Digest, which also folds in downtime/QC/
+  // labor), while "reconcile intake vs. throughput" is the thing they'd
+  // open mid-shift to inspect every run in a sortable table (-> Yield
+  // Reconciliation). If you're adding a third live agent, decide which of
+  // these two experiences it's closer to before picking its card.
   {
     title: "Overnight yield vs. target by species",
     cadence: "Daily",

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DATES, LATEST_DATE, runsForDate } from "@/lib/data/generate";
 import { reconcileYield } from "@/lib/agents/yield-reconciliation";
+import { pluralize } from "@/lib/format";
 
 export const metadata = { title: "Yield Reconciliation Agent" };
 
@@ -10,6 +11,10 @@ export default async function YieldAgentPage({
   searchParams: Promise<{ date?: string }>;
 }) {
   const { date: dateParam } = await searchParams;
+  // Whitelist against the known generated dates rather than trusting the
+  // query param directly — a stale bookmark or hand-edited URL for a date
+  // outside the synthetic window falls back to the latest date instead of
+  // rendering an empty/broken page.
   const date = DATES.includes(dateParam ?? "") ? (dateParam as string) : LATEST_DATE;
 
   const reviews = reconcileYield(runsForDate(date));
@@ -54,8 +59,8 @@ export default async function YieldAgentPage({
         <div className="mb-6 rounded-lg border border-[var(--color-border)] bg-white p-4">
           <p className="text-sm text-slate-600">
             {flagged.length === 0
-              ? `All ${reviews.length} runs on ${date} are within tolerance. No review needed.`
-              : `Recommends reviewing ${flagged.length} of ${reviews.length} runs on ${date} — outside their species' yield tolerance.`}
+              ? `All ${pluralize(reviews.length, "run")} on ${date} are within tolerance. No review needed.`
+              : `Recommends reviewing ${flagged.length} of ${pluralize(reviews.length, "run")} on ${date} — outside their species' yield tolerance.`}
           </p>
         </div>
 

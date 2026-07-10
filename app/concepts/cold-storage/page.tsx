@@ -41,6 +41,11 @@ function TempChart({ unit }: { unit: Unit }) {
   const w = 640;
   const h = 110;
   const pad = 8;
+  // Y-axis auto-scales to the actual data (readings + target/max, plus a
+  // little headroom) rather than a fixed range, so a -10°F freezer and a
+  // 34°F cooler both fill the chart height instead of one being a flat
+  // line. x() maps hour-of-day (0-23) to pixel column; y() maps °F to
+  // pixel row, inverted because SVG y grows downward.
   const lo = Math.min(...unit.readings, unit.targetF) - 2;
   const hi = Math.max(...unit.readings, unit.maxF) + 2;
   const x = (i: number) => pad + (i / (unit.readings.length - 1)) * (w - pad * 2);
