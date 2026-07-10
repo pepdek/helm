@@ -1,16 +1,17 @@
 // Illustrative "what this replaces" estimates for the two live agents.
 //
-// Only the *actual* side of each comparison is a real measurement (compute
-// time for the reconciliation, wall-clock time for the digest call). The
-// manual-baseline side is a stated assumption, not observed data — the
-// constants below are the whole of that assumption, deliberately kept in
-// one place so they're easy to see and to change.
+// These are stated assumptions about manual work, not observed data or a
+// benchmark against the agent's own processing speed, comparing human
+// minutes to machine milliseconds reads as a speed flex, not an
+// operational metric, so nothing here mentions how fast the agent itself
+// ran. Constants are kept in one place so the assumption is easy to see
+// and to change.
 //
-// This is a pitch aid, not a productivity study. Every string this module
-// produces should read as an estimate, and the UI that renders them says so
-// explicitly — see components/ImpactStrip.tsx.
+// This is a pitch aid, not a productivity study. The UI that renders these
+// says so via a small info tooltip rather than repeating a disclosure
+// sentence under every block, see components/ImpactStrip.tsx.
 
-const YIELD_MANUAL_MINUTES_PER_RUN = 3; // pull scale ticket, look up target, calculate %, log it — per run, by hand
+const YIELD_MANUAL_MINUTES_PER_RUN = 3; // pull scale ticket, look up target, calculate %, log it, per run, by hand
 const YIELD_MANUAL_STEPS_PER_RUN = 4;
 const YIELD_ROLLUP_DELAY_DAYS = 6; // days until the next scheduled (weekly) yield report would have surfaced the same anomaly
 
@@ -20,21 +21,12 @@ const DIGEST_DELAY_HOURS = 12; // typical gap between shift-end and the next sta
 
 export type ImpactStat = { label: string; value: string };
 
-// Sub-second results are the common case for both agents (the fallback
-// digest template resolves in well under a second, same as the
-// reconciliation compute). Formatting those as "0.0s" reads as a broken
-// measurement rather than a fast one, so anything under a second is shown
-// in milliseconds instead.
-function formatDuration(ms: number): string {
-  return ms < 1000 ? `${Math.max(1, Math.round(ms))}ms` : `${(ms / 1000).toFixed(1)}s`;
-}
-
-export function yieldImpact(runCount: number, flaggedCount: number, actualMs: number): ImpactStat[] {
+export function yieldImpact(runCount: number, flaggedCount: number): ImpactStat[] {
   const manualMinutes = runCount * YIELD_MANUAL_MINUTES_PER_RUN;
   return [
     {
       label: "Time saved",
-      value: `${manualMinutes} min of manual spot-checking → ${formatDuration(actualMs)} here`,
+      value: `~${manualMinutes} min of manual spot-checking avoided this batch`,
     },
     {
       label: "Steps reduced",
@@ -44,17 +36,17 @@ export function yieldImpact(runCount: number, flaggedCount: number, actualMs: nu
       label: "Delay avoided",
       value:
         flaggedCount > 0
-          ? `${flaggedCount} flagged same-shift, not at next week's rollup — up to ${YIELD_ROLLUP_DELAY_DAYS} days sooner`
-          : `Same-shift visibility either way — nothing waits for next week's rollup`,
+          ? `${flaggedCount} flagged same-shift, not at next week's rollup, up to ${YIELD_ROLLUP_DELAY_DAYS} days sooner`
+          : `Same-shift visibility either way, nothing waits for next week's rollup`,
     },
   ];
 }
 
-export function digestImpact(actualMs: number): ImpactStat[] {
+export function digestImpact(): ImpactStat[] {
   return [
     {
       label: "Time saved",
-      value: `${formatDuration(actualMs)} here vs. an estimated ${DIGEST_MANUAL_MINUTES} min of manual compilation`,
+      value: `~${DIGEST_MANUAL_MINUTES} min of manual compilation avoided this digest`,
     },
     {
       label: "Steps reduced",
@@ -62,7 +54,7 @@ export function digestImpact(actualMs: number): ImpactStat[] {
     },
     {
       label: "Delay avoided",
-      value: `Ready at shift-end instead of next check-in — avoids up to ${DIGEST_DELAY_HOURS}h of delay`,
+      value: `Ready at shift-end instead of next check-in, avoids up to ${DIGEST_DELAY_HOURS}h of delay`,
     },
   ];
 }

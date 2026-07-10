@@ -1,8 +1,9 @@
 import Link from "next/link";
 import ConceptPreviewBanner from "@/components/ConceptPreviewBanner";
+import AppBar from "@/components/AppBar";
 import { SPECIES_SPECS } from "@/lib/data/species-specs";
 
-export const metadata = { title: "Weekly Yield / Efficiency Report — Concept Preview" };
+export const metadata = { title: "Weekly Yield / Efficiency Report, Concept Preview" };
 
 const WEEKS = ["Wk of 6/15", "Wk of 6/22", "Wk of 6/29", "Wk of 7/6"];
 
@@ -28,26 +29,23 @@ const MAX_SCALE = 65; // chart ceiling, %
 export default function WeeklyYieldPage() {
   return (
     <div className="flex-1">
-      <header className="bg-[var(--color-navy)]">
-        <div className="mx-auto max-w-5xl px-6 py-8">
-          <Link href="/" className="text-xs font-medium text-white/60 hover:text-white">
-            &larr; Helm
-          </Link>
-          <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-white">
-            Weekly Yield / Efficiency Report
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm text-white/70">
-            Design concept: the Yield Reconciliation agent&apos;s daily flags
-            rolled up into a week-over-week trend, so a drifting species
-            shows up before it&apos;s a monthly problem.
-          </p>
-        </div>
-      </header>
-
+      <AppBar />
       <ConceptPreviewBanner />
 
       <main className="mx-auto max-w-5xl px-6 py-8">
-        <div className="rounded-lg border border-[var(--color-border)] bg-white p-5">
+        <Link href="/" className="text-xs font-medium text-slate-400 hover:text-[var(--color-navy)]">
+          &larr; Helm
+        </Link>
+        <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-[var(--color-navy)]">
+          Weekly Yield / Efficiency Report
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          Design concept: the Yield Reconciliation agent&apos;s daily flags
+          rolled up into a week-over-week trend, so a drifting species
+          shows up before it&apos;s a monthly problem.
+        </p>
+
+        <div className="mt-6 rounded-lg border border-[var(--color-border)] bg-white p-5">
           <div className="mb-5 flex flex-wrap gap-4">
             {SPECIES_SPECS.map((s) => (
               <div key={s.key} className="flex items-center gap-1.5 text-xs text-slate-500">

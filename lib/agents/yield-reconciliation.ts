@@ -34,16 +34,3 @@ export function reconcileYield(runs: ProductionRun[]): YieldReview[] {
 export function flaggedFor(reviews: YieldReview[]): YieldReview[] {
   return reviews.filter((r) => !r.withinTolerance);
 }
-
-// Wraps reconcileYield() with a real timing measurement, for the "impact"
-// stats on the yield page. Kept as a plain helper rather than inlined in
-// the page component: React's purity rule flags impure calls like
-// performance.now() written directly in a component/hook body, since a
-// component is expected to render the same output given the same input.
-// The timing itself doesn't affect what's rendered here — it's simply not
-// something the component itself should be seen calling.
-export function timedReconcileYield(runs: ProductionRun[]): { reviews: YieldReview[]; elapsedMs: number } {
-  const start = performance.now();
-  const reviews = reconcileYield(runs);
-  return { reviews, elapsedMs: performance.now() - start };
-}

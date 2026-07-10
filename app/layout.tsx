@@ -19,7 +19,7 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Helm — Concept Demo",
+  title: "Helm, Concept Demo",
   description:
     "Unofficial concept demo built for a Trident Seafoods job application. Not affiliated with Trident Seafoods. All data synthetic.",
   robots: { index: false, follow: false },

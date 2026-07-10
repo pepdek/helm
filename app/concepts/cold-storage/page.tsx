@@ -1,7 +1,8 @@
 import Link from "next/link";
 import ConceptPreviewBanner from "@/components/ConceptPreviewBanner";
+import AppBar from "@/components/AppBar";
 
-export const metadata = { title: "Cold Storage Temp Monitoring — Concept Preview" };
+export const metadata = { title: "Cold Storage Temp Monitoring, Concept Preview" };
 
 type Unit = {
   name: string;
@@ -67,47 +68,45 @@ function TempChart({ unit }: { unit: Unit }) {
 export default function ColdStoragePage() {
   return (
     <div className="flex-1">
-      <header className="bg-[var(--color-navy)]">
-        <div className="mx-auto max-w-5xl px-6 py-8">
-          <Link href="/" className="text-xs font-medium text-white/60 hover:text-white">
-            &larr; Helm
-          </Link>
-          <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-white">
-            Cold Storage Temp Monitoring
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm text-white/70">
-            Design concept: a sensor feed per cold storage unit, dashed
-            threshold line, excursions called out for the shift lead to
-            check in person.
-          </p>
-        </div>
-      </header>
-
+      <AppBar />
       <ConceptPreviewBanner />
 
-      <main className="mx-auto max-w-5xl px-6 py-8 space-y-5">
-        {UNITS.map((unit) => (
-          <div key={unit.name} className="rounded-lg border border-[var(--color-border)] bg-white p-5">
-            <div className="mb-3 flex items-center justify-between">
-              <div>
-                <h2 className="font-[family-name:var(--font-display)] text-sm font-bold text-[var(--color-navy)]">
-                  {unit.name}
-                </h2>
-                <p className="text-xs text-slate-400">
-                  Target {unit.targetF}&deg;F &middot; threshold {unit.maxF}&deg;F &middot; dashed line marks threshold
-                </p>
+      <main className="mx-auto max-w-5xl px-6 py-8">
+        <Link href="/" className="text-xs font-medium text-slate-400 hover:text-[var(--color-navy)]">
+          &larr; Helm
+        </Link>
+        <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-[var(--color-navy)]">
+          Cold Storage Temp Monitoring
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          Design concept: a sensor feed per cold storage unit, dashed
+          threshold line, excursions called out for the shift lead to
+          check in person.
+        </p>
+        <div className="mt-6 space-y-5">
+          {UNITS.map((unit) => (
+            <div key={unit.name} className="rounded-lg border border-[var(--color-border)] bg-white p-5">
+              <div className="mb-3 flex items-center justify-between">
+                <div>
+                  <h2 className="font-[family-name:var(--font-display)] text-sm font-bold text-[var(--color-navy)]">
+                    {unit.name}
+                  </h2>
+                  <p className="text-xs text-slate-400">
+                    Target {unit.targetF}&deg;F &middot; threshold {unit.maxF}&deg;F &middot; dashed line marks threshold
+                  </p>
+                </div>
+                {unit.flaggedHour !== null ? (
+                  <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                    Excursion flagged &middot; hour {unit.flaggedHour}:00
+                  </span>
+                ) : (
+                  <span className="text-xs text-slate-400">Within range</span>
+                )}
               </div>
-              {unit.flaggedHour !== null ? (
-                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
-                  Excursion flagged &middot; hour {unit.flaggedHour}:00
-                </span>
-              ) : (
-                <span className="text-xs text-slate-400">Within range</span>
-              )}
+              <TempChart unit={unit} />
             </div>
-            <TempChart unit={unit} />
-          </div>
-        ))}
+          ))}
+        </div>
       </main>
     </div>
   );

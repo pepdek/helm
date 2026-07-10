@@ -1,7 +1,8 @@
 import Link from "next/link";
 import ConceptPreviewBanner from "@/components/ConceptPreviewBanner";
+import AppBar from "@/components/AppBar";
 
-export const metadata = { title: "Vendor Performance Review — Concept Preview" };
+export const metadata = { title: "Vendor Performance Review, Concept Preview" };
 
 type Vendor = {
   name: string;
@@ -30,26 +31,23 @@ export default function VendorPerformancePage() {
 
   return (
     <div className="flex-1">
-      <header className="bg-[var(--color-navy)]">
-        <div className="mx-auto max-w-4xl px-6 py-8">
-          <Link href="/" className="text-xs font-medium text-white/60 hover:text-white">
-            &larr; Helm
-          </Link>
-          <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-white">
-            Vendor Performance Review
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm text-white/70">
-            Design concept: a monthly scorecard across packaging, cold-chain,
-            and freight vendors, ranked lowest-first for the manager to
-            decide who needs a conversation.
-          </p>
-        </div>
-      </header>
-
+      <AppBar />
       <ConceptPreviewBanner />
 
       <main className="mx-auto max-w-4xl px-6 py-8">
-        <div className="divide-y divide-[var(--color-border)] rounded-lg border border-[var(--color-border)] bg-white">
+        <Link href="/" className="text-xs font-medium text-slate-400 hover:text-[var(--color-navy)]">
+          &larr; Helm
+        </Link>
+        <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-[var(--color-navy)]">
+          Vendor Performance Review
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          Design concept: a monthly scorecard across packaging, cold-chain,
+          and freight vendors, ranked lowest-first for the manager to
+          decide who needs a conversation.
+        </p>
+
+        <div className="mt-6 divide-y divide-[var(--color-border)] rounded-lg border border-[var(--color-border)] bg-white">
           {ranked.map((v, i) => {
             const status = statusFor(v.score);
             return (
@@ -73,8 +71,11 @@ export default function VendorPerformancePage() {
                     />
                   </div>
                 </div>
-                <span className="w-10 shrink-0 text-right font-[family-name:var(--font-display)] text-lg font-extrabold text-[var(--color-navy)]">
-                  {v.score}
+                <span className="w-14 shrink-0 text-right">
+                  <span className="font-[family-name:var(--font-display)] text-lg font-extrabold text-[var(--color-navy)]">
+                    {v.score}
+                  </span>
+                  <span className="text-xs text-slate-400">/100</span>
                 </span>
               </div>
             );

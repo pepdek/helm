@@ -1,8 +1,9 @@
 import Link from "next/link";
 import ConceptPreviewBanner from "@/components/ConceptPreviewBanner";
+import AppBar from "@/components/AppBar";
 import { LATEST_DATE } from "@/lib/data/generate";
 
-export const metadata = { title: "HACCP Recertification Prep — Concept Preview" };
+export const metadata = { title: "HACCP Recertification Prep, Concept Preview" };
 
 type ChecklistItem = {
   label: string;
@@ -39,26 +40,23 @@ export default function HaccpRecertPage() {
 
   return (
     <div className="flex-1">
-      <header className="bg-[var(--color-navy)]">
-        <div className="mx-auto max-w-3xl px-6 py-8">
-          <Link href="/" className="text-xs font-medium text-white/60 hover:text-white">
-            &larr; Helm
-          </Link>
-          <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-white">
-            HACCP Recertification Prep
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm text-white/70">
-            Design concept: a running checklist toward the next
-            recertification date, so nothing gets discovered a week before
-            the audit.
-          </p>
-        </div>
-      </header>
-
+      <AppBar />
       <ConceptPreviewBanner />
 
       <main className="mx-auto max-w-3xl px-6 py-8">
-        <div className="mb-6 rounded-lg border border-[var(--color-border)] bg-white p-5">
+        <Link href="/" className="text-xs font-medium text-slate-400 hover:text-[var(--color-navy)]">
+          &larr; Helm
+        </Link>
+        <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-[var(--color-navy)]">
+          HACCP Recertification Prep
+        </h1>
+        <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          Design concept: a running checklist toward the next
+          recertification date, so nothing gets discovered a week before
+          the audit.
+        </p>
+
+        <div className="mt-6 mb-6 rounded-lg border border-[var(--color-border)] bg-white p-5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs uppercase tracking-wide text-slate-400">Recertification target</p>

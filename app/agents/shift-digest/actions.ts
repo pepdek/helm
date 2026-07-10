@@ -51,7 +51,7 @@ function fallbackDigest(summary: ShiftSummary): string {
   if (summary.flags.length > 0) {
     const worst = summary.flags[0];
     parts.push(
-      `${summary.flags.length} of ${pluralize(summary.runs.length, "run")} came in outside yield tolerance, worst being ${worst.run.species} on ${worst.run.line} at ${(worst.actualYieldPct * 100).toFixed(1)}% against a ${(worst.expectedYieldPct * 100).toFixed(1)}% target — flagged for your review.`
+      `${summary.flags.length} of ${pluralize(summary.runs.length, "run")} came in outside yield tolerance, worst being ${worst.run.species} on ${worst.run.line} at ${(worst.actualYieldPct * 100).toFixed(1)}% against a ${(worst.expectedYieldPct * 100).toFixed(1)}% target, flagged for your review.`
     );
   } else if (summary.runs.length > 0) {
     parts.push(`All ${pluralize(summary.runs.length, "run")} this shift held within yield tolerance.`);
@@ -69,7 +69,7 @@ function fallbackDigest(summary: ShiftSummary): string {
       `Staffed ${summary.staffing.actual} of ${summary.staffing.scheduled} scheduled, recommends checking coverage for the next shift.`
     );
   }
-  parts.push(`(Generated from a template — set ANTHROPIC_API_KEY for the live narrative agent.)`);
+  parts.push(`(Generated from a template. Set ANTHROPIC_API_KEY for the live narrative agent.)`);
   return parts.join(" ");
 }
 
