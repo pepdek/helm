@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { DATES, LATEST_DATE, runsForDate } from "@/lib/data/generate";
-import { reconcileYield } from "@/lib/agents/yield-reconciliation";
+import { timedReconcileYield } from "@/lib/agents/yield-reconciliation";
 import { pluralize } from "@/lib/format";
+import { yieldImpact } from "@/lib/impact";
+import ImpactStrip from "@/components/ImpactStrip";
 
 export const metadata = { title: "Yield Reconciliation Agent" };
 
@@ -17,7 +19,10 @@ export default async function YieldAgentPage({
   // rendering an empty/broken page.
   const date = DATES.includes(dateParam ?? "") ? (dateParam as string) : LATEST_DATE;
 
-  const reviews = reconcileYield(runsForDate(date));
+  // Real measurement: how long the comparison itself takes to compute. Feeds
+  // the "time saved" stat below — see lib/impact.ts for what's actually
+  // measured vs. estimated.
+  const { reviews, elapsedMs: reconcileMs } = timedReconcileYield(runsForDate(date));
   const flagged = reviews.filter((r) => !r.withinTolerance);
 
   return (
@@ -63,6 +68,11 @@ export default async function YieldAgentPage({
               : `Recommends reviewing ${flagged.length} of ${pluralize(reviews.length, "run")} on ${date} — outside their species' yield tolerance.`}
           </p>
         </div>
+
+        <ImpactStrip
+          stats={yieldImpact(reviews.length, flagged.length, reconcileMs)}
+          methodology={`${reviews.length} runs × an assumed 3 minutes of manual spot-checking each (pull the scale ticket, look up the species target, calculate the yield %, log the result) vs. the actual time to compute this table.`}
+        />
 
         <div className="overflow-x-auto rounded-lg border border-[var(--color-border)] bg-white">
           <table className="w-full text-left text-sm">
