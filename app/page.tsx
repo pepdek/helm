@@ -14,7 +14,7 @@ export default function Home() {
               <path d="M12 3v13M7 3v5a5 5 0 0 0 5 5 5 5 0 0 0 5-5V3M9 21l3-3 3 3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span className="font-[family-name:var(--font-display)] text-lg font-extrabold tracking-tight text-white">
-              Factory Ops Command Center
+              Helm
             </span>
           </div>
           <p className="mt-3 max-w-2xl text-sm text-white/70">

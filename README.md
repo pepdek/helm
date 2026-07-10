@@ -1,13 +1,14 @@
-# Factory Ops Command Center — concept demo
+# Helm — concept demo
 
 Unofficial concept demo built by Pep Dekker for a job application (Trident
 Seafoods, Senior Systems Specialist | AI Agent Builder, req IT1950). Not
 affiliated with, endorsed by, or built using data from Trident Seafoods. All
 data shown is synthetic. `robots.txt` disallows indexing.
 
-One dashboard — the Factory Ops Command Center — with 25 task cards across
-Daily/Weekly/Monthly/Annual cadences. Two are **live agents**, the other 23
-are **Phase 2** roadmap cards in the same visual shell.
+One dashboard — Helm — with 25 task cards across Daily/Weekly/Monthly/Annual
+cadences. Two are **live agents**, four are **Concept Preview** screens (real
+layout, static synthetic data, no functional interaction), and the remaining
+19 are **Phase 2** roadmap cards in the same visual shell.
 
 ## Live agents
 
@@ -21,6 +22,23 @@ are **Phase 2** roadmap cards in the same visual shell.
 
 All data is synthetic, generated deterministically (seeded RNG) in
 `lib/data/generate.ts` — same numbers on every reload.
+
+## Concept Preview screens
+
+Four Phase 2 cards (one per cadence) get a static, non-functional preview so
+the full grid feels designed, not just the Daily section. Each opens a real
+screen matching the visual system, but is clearly marked — dashed violet
+border, a distinct "Concept Preview" badge on the card and a banner inside
+the screen — never confusable with the two live agents:
+
+- **Cold Storage Temp Monitoring** (`/concepts/cold-storage`, Daily) — sensor
+  chart mockup, one flagged excursion.
+- **Weekly Yield / Efficiency Report** (`/concepts/weekly-yield`, Weekly) —
+  bar chart, week-over-week yield by species.
+- **Vendor Performance Review** (`/concepts/vendor-performance`, Monthly) —
+  ranked vendor scorecard mockup.
+- **HACCP Recertification Prep** (`/concepts/haccp-recert`, Annual) —
+  checklist with a progress bar toward a synthetic recert date.
 
 ## Running locally
 

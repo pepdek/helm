@@ -3,13 +3,14 @@ export type Cadence = "Daily" | "Weekly" | "Monthly" | "Annual";
 export type TaskCard = {
   title: string;
   cadence: Cadence;
-  status: "live" | "phase2";
+  status: "live" | "preview" | "phase2";
   href?: string;
   blurb: string;
 };
 
 // The 25 responsibilities from the JD, grouped by cadence. Two are wired to
-// working agent screens; the rest are roadmapped, not hidden.
+// working agent screens, four have static Concept Preview screens (one per
+// cadence), the rest are roadmapped, not hidden.
 export const TASK_CARDS: TaskCard[] = [
   // Daily (8)
   {
@@ -35,7 +36,8 @@ export const TASK_CARDS: TaskCard[] = [
   {
     title: "Cold storage temp monitoring",
     cadence: "Daily",
-    status: "phase2",
+    status: "preview",
+    href: "/concepts/cold-storage",
     blurb: "Sensor feed with excursion alerts routed to the shift lead.",
   },
   {
@@ -67,7 +69,8 @@ export const TASK_CARDS: TaskCard[] = [
   {
     title: "Weekly yield / efficiency report",
     cadence: "Weekly",
-    status: "phase2",
+    status: "preview",
+    href: "/concepts/weekly-yield",
     blurb: "Rolls up daily reconciliation into a week-over-week trend view.",
   },
   {
@@ -141,7 +144,8 @@ export const TASK_CARDS: TaskCard[] = [
   {
     title: "Vendor performance review",
     cadence: "Monthly",
-    status: "phase2",
+    status: "preview",
+    href: "/concepts/vendor-performance",
     blurb: "Scorecards for packaging, cold-chain, and supply vendors.",
   },
 
@@ -155,7 +159,8 @@ export const TASK_CARDS: TaskCard[] = [
   {
     title: "HACCP recertification prep",
     cadence: "Annual",
-    status: "phase2",
+    status: "preview",
+    href: "/concepts/haccp-recert",
     blurb: "Document and training checklist ahead of recertification.",
   },
   {

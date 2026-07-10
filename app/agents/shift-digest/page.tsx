@@ -18,7 +18,7 @@ export default async function ShiftDigestPage({
       <header className="bg-[var(--color-navy)]">
         <div className="mx-auto max-w-3xl px-6 py-8">
           <Link href="/" className="text-xs font-medium text-white/60 hover:text-white">
-            &larr; Factory Ops Command Center
+            &larr; Helm
           </Link>
           <h1 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-extrabold text-white">
             Daily Shift Digest Agent
